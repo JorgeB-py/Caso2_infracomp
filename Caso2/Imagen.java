@@ -375,6 +375,7 @@ public class Imagen {
             // Esperar a que los threads terminen
             t1.join();
             t2.interrupt();
+            t2.join();
 
             // Imprimir resultados
             System.out.println("Hits: " + t1.getHits());

@@ -1,16 +1,18 @@
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(isr);
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Ingrese el nombre del archivo BMP: ");
+        String nombre = sc.nextLine();
+        Imagen imagen = new Imagen(nombre);
 
         while (true) {  // Mantener el programa corriendo hasta que el usuario decida salir
             try {
-                System.out.println("Nombre del archivo: ");
-                String ruta = br.readLine();
-                Imagen imagen = new Imagen(ruta);  // Asumiendo que la clase Imagen está bien definida
                 System.out.println("Seleccione una opción: ");
                 System.out.println("1. Generar archivo de referencias");
                 System.out.println("2. Simulación de reemplazo de páginas");
@@ -20,7 +22,6 @@ public class Main {
                     System.out.println("Saliendo del programa...");
                     break;  // Salir del bucle
                 }
-
                 switch (opcion) {
                     case 1:
                         System.out.println("Tamaño de página en bytes: ");
