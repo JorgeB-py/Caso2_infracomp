@@ -8,8 +8,8 @@ public class Main {
 
         while (true) {  // Mantener el programa corriendo hasta que el usuario decida salir
             try {
-                //System.out.println("Nombre del archivo: ");
-                String ruta = "C:\\Users\\jorgi\\Desktop\\Uniandes\\infracomp\\Caso2_infracomp\\caso2\\caso2-parrots_mod.bmp";
+                System.out.println("Nombre del archivo: ");
+                String ruta = br.readLine();
                 Imagen imagen = new Imagen(ruta);  // Asumiendo que la clase Imagen está bien definida
                 System.out.println("Seleccione una opción: ");
                 System.out.println("1. Generar archivo de referencias");

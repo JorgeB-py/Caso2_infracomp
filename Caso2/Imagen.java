@@ -356,8 +356,8 @@ public class Imagen {
         BufferedReader br = new BufferedReader(isr);
 
         try {
-            //System.out.println("Nombre del archivo de referencias: ");
-            String ruta = "C:/Users/jorgi/Desktop/Uniandes/infracomp/Caso2_infracomp/referencias.txt";
+            System.out.println("Nombre del archivo de referencias: ");
+            String ruta = br.readLine();
             System.out.println("Número de marcos de página: ");
             int num_marcospag = Integer.parseInt(br.readLine());
             List<Integer> marco = new ArrayList<>(Collections.nCopies(num_marcospag, -1)); // Inicializa marcos con -1
