@@ -354,35 +354,44 @@ public class Imagen {
     public void opcion2() {
         InputStreamReader isr = new InputStreamReader(System.in);
         BufferedReader br = new BufferedReader(isr);
-
+    
         try {
             System.out.println("Nombre del archivo de referencias: ");
             String ruta = br.readLine();
             System.out.println("Número de marcos de página: ");
             int num_marcospag = Integer.parseInt(br.readLine());
             List<Integer> marco = new ArrayList<>(Collections.nCopies(num_marcospag, -1)); // Inicializa marcos con -1
-
-            
+    
             HashMap<Integer, Integer> bitR = new HashMap<Integer, Integer>();
-
+    
+            // Obtener tiempo de inicio
+            long tiempoInicio = System.currentTimeMillis();
+    
             // Crear threads
             T t1 = new T(0, bitR, marco, ruta);
             T t2 = new T(1, bitR, marco, ruta);
-
+    
             t1.start();
             t2.start();
-
+    
             // Esperar a que los threads terminen
             t1.join();
             t2.interrupt();
             t2.join();
-
+    
+            // Obtener tiempo de finalización
+            long tiempoFin = System.currentTimeMillis();
+    
             // Imprimir resultados
             System.out.println("Hits: " + t1.getHits());
             System.out.println("Fallas: " + t1.getFallas());
-
+    
+            // Calcular e imprimir el tiempo total de ejecución
+            long tiempoTotal = tiempoFin - tiempoInicio;
+            System.out.println("Tiempo total de ejecución: " + tiempoTotal + " ms");
+    
         } catch (Exception e) {
-            // TODO: handle exception
+            e.printStackTrace();
         }
-    }
+    }    
 }
