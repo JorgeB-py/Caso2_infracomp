@@ -38,6 +38,7 @@ public class T extends Thread {
             }
             String linea;
             while ((linea = reader.readLine()) != null) {
+                Thread.sleep(1);
                 String[] datos = linea.split(",");
                 int pagina = Integer.parseInt(datos[1]);  // Página referenciada
                 synchronized (this) {  // Sincroniza el acceso a marco y bitR
@@ -45,11 +46,9 @@ public class T extends Thread {
                         // Si la página ya está en los marcos, es un hit
                         actualizarR(pagina);
                         hits++;
-                        System.out.println("Hit: " + hits);
                     } else {
                         // Fallo de página
                         fallas++;
-                        System.out.println("Falla: " + fallas);
     
                         // Reemplazo: encuentra el primer marco vacío o la primera página con bit R = 0
                         boolean reemplazada = false;
