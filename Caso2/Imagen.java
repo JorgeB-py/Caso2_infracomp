@@ -4,11 +4,9 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Arrays;
-import java.util.List;
-import java.util.HashMap;
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Imagen {
 
@@ -315,12 +313,7 @@ public class Imagen {
     }
 
     public void opcion1(int tamanoPagina, Imagen imagen) {
-
-        InputStreamReader isr = new InputStreamReader(System.in);
-        BufferedReader br = new BufferedReader(isr);
-
         try {
-
             // Variables de interés para la parte inicial del archivo de texto a retornar
             int numeroFilas = imagen.alto;
             int numeroColumnas = imagen.ancho;
@@ -360,9 +353,9 @@ public class Imagen {
             String ruta = br.readLine();
             System.out.println("Número de marcos de página: ");
             int num_marcospag = Integer.parseInt(br.readLine());
-            List<Integer> marco = new ArrayList<>(Collections.nCopies(num_marcospag, -1)); // Inicializa marcos con -1
+            CopyOnWriteArrayList<Integer> marco = new CopyOnWriteArrayList<>(Collections.nCopies(num_marcospag, -1)); // Inicializa marcos con -1
     
-            HashMap<Integer, Integer> bitR = new HashMap<Integer, Integer>();
+            ConcurrentHashMap<Integer, Integer> bitR = new ConcurrentHashMap<Integer, Integer>();
     
             // Obtener tiempo de inicio
             long tiempoInicio = System.currentTimeMillis();

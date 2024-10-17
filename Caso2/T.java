@@ -1,21 +1,20 @@
-import java.util.HashMap;
-import java.util.List;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.FileInputStream;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public class T extends Thread {
 
-    private int clase; // 0 = gestión de referencias, 1 = envejecimiento del bit R
-    private HashMap<Integer, Integer> bitR; // Mapa que almacena los bits R de las páginas
-    private List<Integer> marco; // Lista que representa los marcos de página
+    private int clase; 
+    private ConcurrentHashMap<Integer, Integer> bitR;
+    private CopyOnWriteArrayList<Integer> marco;
     private String ruta;
 
-    // Contadores para hits y fallas
     private int hits = 0;
     private int fallas = 0;
 
-    public T(int clase, HashMap<Integer, Integer> bitR, List<Integer> marco, String ruta) {
+    public T(int clase, ConcurrentHashMap<Integer, Integer> bitR, CopyOnWriteArrayList<Integer> marco, String ruta) {
         this.clase = clase;
         this.bitR = bitR;
         this.marco = marco;
@@ -34,22 +33,21 @@ public class T extends Thread {
     public synchronized void gestionarReferencias() {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(new FileInputStream(ruta)))) {
             for (int i = 0; i < 5; i++) {
-                reader.readLine(); // Saltar las primeras 5 líneas
+                reader.readLine(); 
             }
             String linea;
             while ((linea = reader.readLine()) != null) {
                 Thread.sleep(1);
                 String[] datos = linea.split(",");
-                int pagina = Integer.parseInt(datos[1]); // Página referenciada
+                int pagina = Integer.parseInt(datos[1]);
                 if (marco.contains(pagina)) {
-                    // Si la página ya está en los marcos, es un hit
+
                     actualizarR(pagina);
                     hits++;
                 } else {
-                    // Fallo de página
+
                     fallas++;
 
-                    // Reemplazo: encuentra el primer marco vacío o la primera página con bit R = 0
                     boolean reemplazada = false;
                     for (int i = 0; i < marco.size(); i++) {
                         if (marco.get(i) == -1 || bitR.get(marco.get(i)) == 0) {
@@ -74,22 +72,22 @@ public class T extends Thread {
 
     // Método para envejecimiento del bit R
     public synchronized void envejecimientoBitR() {
-        while (!isInterrupted()) { // Verifica si el thread ha sido interrumpido
+        while (!isInterrupted()) {
             try {
                 Thread.sleep(2);
                 for (Integer pagina : bitR.keySet()) {
-                    bitR.put(pagina, 0); // Envejece el bit R
+                    bitR.put(pagina, 0);
                 }
             } catch (InterruptedException e) {
                 System.out.println("Thread de envejecimiento interrumpido, terminando.");
-                break; // Sale del ciclo cuando es interrumpido
+                break;
             }
         }
     }
 
     // Actualiza el bit R a 1 cuando una página es referenciada
     public synchronized void actualizarR(int pagina) {
-        bitR.put(pagina, 1); // Se pone el bit R a 1 cuando la página es referenciada
+        bitR.put(pagina, 1); 
     }
 
     // Métodos para obtener los contadores
